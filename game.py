@@ -77,7 +77,6 @@ def main():
         for j in range(len(cells[i])):
             pos = Position(i, j)
             cell = Cell(pos, cells[i][j])
-#           print("{}, {}, {}".format(cell.position.line, cell.position.column, cell.value))
             maze.append(cell)
     show_maze(maze)
 
