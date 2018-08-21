@@ -3,7 +3,6 @@ from maze import *
 
 def main():
     maze = Maze()
-    maze.cells = maze.generate_maze_from_file()
     still_playing = 1
     while still_playing:
         maze.show_maze(maze)

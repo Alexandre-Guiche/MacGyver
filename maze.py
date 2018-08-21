@@ -9,25 +9,25 @@ class Maze:
     ITEMS = set()
 
     def __init__(self):
-        self.cells = []
+        self.cells = self.generate_maze_from_file()
 
     def get_cells(self):
         return self.cells
 
-    def generate_maze_from_file(self):
-        maze = []
+    @staticmethod
+    def generate_maze_from_file():
+        maze_lines = []
+        maze_cells = []
         with open("data/maze.json") as maze_file:
             data = json.load(maze_file)
             for entry in data:
-                maze.append(entry["line"])
-        self.cells = maze
-        maze = []
-        for i in range(len(self.get_cells())):
-            for j in range(len(self.get_cells()[i])):
+                maze_lines.append(entry["line"])
+        for i in range(len(maze_lines)):
+            for j in range(len(maze_lines[i])):
                 pos = Position(i, j)
-                cell = Cell(pos, self.get_cells()[i][j])
-                maze.append(cell)
-        return maze
+                cell = Cell(pos, maze_lines[i][j])
+                maze_cells.append(cell)
+        return maze_cells
 
     def get_mac_cell(self):
         for i in range(len(self.cells)):
