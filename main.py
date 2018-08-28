@@ -2,6 +2,7 @@ from maze import *
 
 
 def main():
+    # main loop that stops when the player reaches the guard, either it won or lost (or quits manually)
     maze = Maze()
     still_playing = 1
     while still_playing:
