@@ -1,5 +1,6 @@
 import json
 import pygame
+import time
 from position import *
 from cell import *
 
@@ -90,18 +91,27 @@ class Maze:
         self.swap_cells(cell_mac, cell_item)
 
     def fight_guard(self, cell_mac, cell_guard):
-        game_quit = pygame.event.Event(12, {})
         if self.ITEMS == {"e", "n", "t"}:
             self.cells[cell_guard.position.convert_units()].value = "f"
             self.swap_cells(cell_mac, cell_guard)
-            print("gagné!")
-            pygame.event.post(game_quit)
+            self.game_won()
         else:
-            print("perdu!")
-            pygame.event.post(game_quit)
+            self.game_lost()
+
+    def game_won(self):
+        game_quit = pygame.event.Event(12, {})
+        self.show_maze(self, "win")
+        time.sleep(3)
+        pygame.event.post(game_quit)
+
+    def game_lost(self):
+        game_quit = pygame.event.Event(12, {})
+        self.show_maze(self, "lost")
+        time.sleep(3)
+        pygame.event.post(game_quit)
 
     @staticmethod
-    def show_maze(maze):
+    def show_maze(maze, text=""):
         pygame.init()
         window = pygame.display.set_mode((300, 300))
         wall = pygame.image.load("data/wall.jpg").convert()
@@ -139,4 +149,12 @@ class Maze:
             else:
                 line_index += 1
                 column_index = 0
+        if text == "win" :
+            myfont = pygame.font.SysFont("monospace", 15)
+            label = myfont.render("YOU WON!", 1, (255, 255, 255))
+            window.blit(label, (100, 100))
+        elif text == "lost":
+            myfont = pygame.font.SysFont("monospace", 15)
+            label = myfont.render("GAME OVER", 1, (255, 255, 255))
+            window.blit(label, (100, 100))
         pygame.display.flip()
